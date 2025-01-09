@@ -194,13 +194,24 @@ export async function generateMaze({
   ...rest
 }: GenerateOptions) {
   let element: any;
-  const width =
-    (rest.cellShape === 'triangle' ? (columnCount + 1) / 2 : columnCount) *
-    cellWidth;
-  const height =
-    rowCount *
-    cellWidth *
-    (rest.cellShape === 'triangle' ? TRIANGLE_HEIGHT : 1);
+  let width = columnCount * cellWidth;
+  let height = rowCount * cellWidth;
+
+  if (rest.cellShape === 'triangle') {
+    width = ((columnCount + 1) / 2) * cellWidth;
+    height *= TRIANGLE_HEIGHT;
+  } else if (rest.cellShape === 'hexagon') {
+    const takeFullWidthItems = (columnCount + 1) / 2;
+    const takeHalfWidthItems = columnCount - takeFullWidthItems;
+    width =
+      takeFullWidthItems * cellWidth + takeHalfWidthItems * cellWidth * 0.75;
+
+    const takeFullHeightItems = (rowCount + 1) / 2;
+    const takeHalfHeightItems = rowCount - takeFullHeightItems;
+    height =
+      takeFullHeightItems * cellWidth + takeHalfHeightItems * cellWidth * 0.5;
+  }
+
   if (drawType === 'canvas') {
     element = createCanvas(width, height);
   } else {
