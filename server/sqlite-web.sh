@@ -1,0 +1,1 @@
+sqlite_web /root/print4me.sqlite -p 3393 -H 0.0.0.0 -P 123abcabc@@@
