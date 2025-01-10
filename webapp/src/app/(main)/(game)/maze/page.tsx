@@ -221,6 +221,7 @@ export default function MazePage() {
   const handleDownload = async (format: string, size?: string) => {
     setIsDownloading(true); // Start loading for download
     const data = watch(); // Get current form values
+    const solve = showSolution || format === "pdf"; // Always show solution for PDF
     const requestBody = {
       rowCount: data.rowCount ? parseInt(data.rowCount) : undefined,
       columnCount: data.columnCount ? parseInt(data.columnCount) : undefined,
@@ -232,7 +233,7 @@ export default function MazePage() {
       exitConfig: data.exitConfig || undefined,
       lineWidth: data.lineWidth ? parseFloat(data.lineWidth) : undefined,
       layers: data.shape === "Circle" ? parseInt(data.layers) : undefined,
-      solve: showSolution || format === "pdf", // Always show solution for PDF
+      solve,
       format,
       pdf: size
         ? {
@@ -273,8 +274,9 @@ export default function MazePage() {
       // Create a blob URL and trigger download
       const blobUrl = URL.createObjectURL(response.data);
       const link = document.createElement("a");
+      const fileFormat = format === "pdf" ? "pdf" : solve ? "zip" : format;
       link.href = blobUrl;
-      link.download = `maze-${new Date().toISOString()}.${format}`;
+      link.download = `maze-${new Date().toISOString()}.${fileFormat}`;
       link.click();
       URL.revokeObjectURL(blobUrl); // Clean up
 

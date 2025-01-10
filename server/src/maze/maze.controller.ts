@@ -3,7 +3,7 @@ import { FORMAT_TO_DRAW_TYPE, FORMAT_TO_EXPORTER } from './../exporter/index';
 import { AuthGuard } from './../auth/auth.guard';
 import { JoiValidationPipe } from './../auth/joi-validation.pipe';
 import { QuotaService } from './../quota/quota.service';
-import { Controller, Post, Body, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import {
   BuildMazeConfigSchema,
@@ -75,12 +75,12 @@ export class MazeController {
 
         let dataToExtract = await generateMaze({
           ...body,
-          solve: body.format !== 'pdf' && body.solve,
+          solve: false,
           randomSeed: seed,
           drawType,
         });
 
-        if (body.format === 'pdf' && body.solve) {
+        if (body.solve) {
           dataToExtract = [dataToExtract];
           const svg = await generateMaze({
             ...body,
@@ -99,6 +99,7 @@ export class MazeController {
           ...body.pdf,
           width,
           height,
+          fileNames: [`maze.${body.format}`, `solution.${body.format}`],
         });
 
         res.setHeader('Content-Type', mimeType);

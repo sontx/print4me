@@ -1,18 +1,14 @@
-import { ExportedData, Exporter, isCanvas } from "./exporter";
+import { AbstractExporter, ExportedData, isCanvas } from './exporter';
 
-export class PngExporter implements Exporter {
-  async export(data: any): Promise<ExportedData> {
-    if (Array.isArray(data)) {
-      throw new Error("Cannot export an array of items to PNG");
-    }
-
+export class PngExporter extends AbstractExporter {
+  protected async exportEach(data: any): Promise<ExportedData> {
     if (isCanvas(data)) {
       return {
-        buffer: data.toBuffer("image/png"),
-        mimeType: "image/png",
+        buffer: data.toBuffer('image/png'),
+        mimeType: 'image/png',
       };
     }
 
-    throw new Error("Unsupported data type for PNG export");
+    throw new Error('Unsupported data type for PNG export');
   }
 }
