@@ -3,7 +3,7 @@ import * as PDFDocument from 'pdfkit';
 import * as SVGtoPDF from 'svg-to-pdfkit';
 
 export class PdfExporter implements Exporter {
-  private doc!: PDFKit.PDFDocument;
+  private doc!: any;
 
   /**
    * Computes new width/height so that the item (SVG/Canvas) fits horizontally
