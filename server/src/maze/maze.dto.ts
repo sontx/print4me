@@ -147,6 +147,7 @@ export type DownloadOptions = GenerateOptions & {
     fontSize?: number;
     fontColor?: string;
     fontFamily?: string;
+    margin?: number;
   };
 };
 
@@ -159,6 +160,7 @@ export const DownloadOptionsSchema =
       fontSize: Joi.number().min(10).max(30).default(20).optional(),
       fontColor: Joi.string().default('#000000').optional(),
       fontFamily: Joi.string().default('Arial').optional(),
+      margin: Joi.number().min(1).max(255).default(72).optional(),
     })
       .allow(null)
       .optional(),
