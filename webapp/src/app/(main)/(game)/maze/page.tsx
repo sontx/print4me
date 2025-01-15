@@ -90,6 +90,7 @@ interface IndicatorConfig {
 interface MazeFormData {
   heading: string;
   fontFamily: string;
+  margin: number;
   fontSize: string;
   headingColor: string;
   columnCount: string; // New field
@@ -110,6 +111,7 @@ export default function MazePage() {
   const { control, register, handleSubmit, watch } = useForm<MazeFormData>({
     defaultValues: {
       heading: "Maze Puzzle",
+      margin: 72,
       fontFamily: "Arial",
       fontSize: "20",
       headingColor: "#000000",
@@ -242,6 +244,7 @@ export default function MazePage() {
             fontSize: data.fontSize,
             fontColor: data.headingColor,
             fontFamily: data.fontFamily,
+            margin: data.margin,
           }
         : undefined,
       randomSeed: randomSeedRef.current,
@@ -334,7 +337,7 @@ export default function MazePage() {
             <Input {...register("heading")} />
 
             <div className="grid grid-cols-3 gap-4">
-              <div>
+              <div className="space-y-1">
                 <Label>Font Family</Label>
                 <Controller
                   control={control}
@@ -348,7 +351,7 @@ export default function MazePage() {
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <Label>Font Size</Label>
                 <Controller
                   control={control}
@@ -370,7 +373,7 @@ export default function MazePage() {
                 />
               </div>
 
-              <div>
+              <div className="space-y-1">
                 <Label>Font Color</Label>
                 <Controller
                   control={control}
@@ -384,12 +387,30 @@ export default function MazePage() {
                 />
               </div>
             </div>
+
+            <div className="space-y-1">
+              <Label>Page Margin</Label>
+              <Controller
+                control={control}
+                name="margin"
+                render={({ field }) => (
+                  <Input
+                    type="number"
+                    step="1"
+                    min="1"
+                    max="255"
+                    value={field.value}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                )}
+              />
+            </div>
           </div>
 
           {/* Two-Column Configuration */}
           <div className="grid grid-cols-2 gap-4">
             {/* Shape */}
-            <div>
+            <div className="space-y-1">
               <Label>Shape</Label>
               <Controller
                 control={control}
@@ -411,7 +432,7 @@ export default function MazePage() {
             </div>
 
             {/* Cell Width */}
-            <div>
+            <div className="space-y-1">
               <Label>Cell Width</Label>
               <Controller
                 control={control}
@@ -435,7 +456,7 @@ export default function MazePage() {
 
             {/* Column Count */}
             {formData.shape !== "Circle" && (
-              <div>
+              <div className="space-y-1">
                 <Label>Column Count</Label>
                 <Controller
                   control={control}
@@ -460,7 +481,7 @@ export default function MazePage() {
 
             {/* Number of Layers (Conditional) */}
             {formData.shape === "Circle" && (
-              <div>
+              <div className="space-y-1">
                 <Label>Number of Layers</Label>
                 <Controller
                   control={control}
@@ -485,7 +506,7 @@ export default function MazePage() {
 
             {/* Row Count */}
             {formData.shape !== "Circle" && (
-              <div>
+              <div className="space-y-1">
                 <Label>Row Count</Label>
                 <Controller
                   control={control}
@@ -509,7 +530,7 @@ export default function MazePage() {
             )}
 
             {/* Maze Color */}
-            <div>
+            <div className="space-y-1">
               <Label>Maze Color</Label>
               <Controller
                 control={control}
@@ -524,7 +545,7 @@ export default function MazePage() {
             </div>
 
             {/* Maze Background Color */}
-            <div>
+            <div className="space-y-1">
               <Label>Background Color</Label>
               <Controller
                 control={control}
@@ -539,7 +560,7 @@ export default function MazePage() {
             </div>
 
             {/* Solution Color */}
-            <div>
+            <div className="space-y-1">
               <Label>Solution Color</Label>
               <Controller
                 control={control}
@@ -554,20 +575,20 @@ export default function MazePage() {
             </div>
 
             {/* Difficulty Level */}
-            <div>
-              <Label>Build Strategy</Label>
+            <div className="space-y-1">
+              <Label>Build Algorithm</Label>
               <Controller
                 control={control}
                 name="difficulty"
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Strategy" />
+                      <SelectValue placeholder="Algorithm" />
                     </SelectTrigger>
                     <SelectContent>
                       {ALGORITHMS.map((algo, index) => (
                         <SelectItem key={algo} value={algo}>
-                          Strategy {index + 1}
+                          Algorithm {index + 1}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -577,7 +598,7 @@ export default function MazePage() {
             </div>
 
             {/* Exit Config */}
-            <div>
+            <div className="space-y-1">
               <Label>Exit Direction</Label>
               <Controller
                 control={control}
@@ -598,7 +619,7 @@ export default function MazePage() {
             </div>
 
             {/* Line Width */}
-            <div>
+            <div className="space-y-1">
               <Label>Line Width</Label>
               <Controller
                 control={control}
@@ -641,7 +662,7 @@ export default function MazePage() {
 
             {watch("indicator.showIndicator") && (
               <>
-                <div>
+                <div className="space-y-1">
                   <Label>Size</Label>
                   <Controller
                     name="indicator.size"
@@ -661,7 +682,7 @@ export default function MazePage() {
                   />
                 </div>
 
-                <div>
+                <div className="space-y-1">
                   <Label>Start Indicator</Label>
                   <div className="flex space-x-2">
                     <Controller
@@ -696,7 +717,7 @@ export default function MazePage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-1">
                   <Label>End Indicator</Label>
                   <div className="flex space-x-2">
                     <Controller
