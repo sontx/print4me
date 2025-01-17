@@ -20,7 +20,6 @@ import {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="Arial">Arial</SelectItem>
-          <SelectItem value="Bool">Bool</SelectItem>
           <SelectItem value="Chlakh">Chlakh</SelectItem>
           <SelectItem value="Courier New">Courier New</SelectItem>
           <SelectItem value="EBGaramond">EBGaramond</SelectItem>
