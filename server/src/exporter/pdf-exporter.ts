@@ -110,7 +110,7 @@ export class PdfExporter implements Exporter {
         if (!heading) return margin; // If there's no heading, return top margin.
 
         if (!fontsRegistered) {
-          doc.registerFont(fontFamily, `fonts/${fontFamily}.ttf`);
+          doc.registerFont(fontFamily, `fonts/${fontFamily.replaceAll(' ', '-')}.ttf`);
           fontsRegistered = true;
         }
 
